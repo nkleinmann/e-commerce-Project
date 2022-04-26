@@ -17,6 +17,9 @@ const Navigation = () => {
               <Link className='nav-link' to='/shop'>
                   SHOP
               </Link>
+              <Link className='sign-in-link' to='/sign-in'>
+                  SIGN-IN
+              </Link>
           </div>
         </div>
         {/* Outlet allows the elements of page to change for certain routes */}
