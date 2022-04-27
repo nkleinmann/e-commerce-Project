@@ -3,6 +3,8 @@ import { initializeApp } from 'firebase/app'
 // authentication
 import { getAuth, signInWithRedirect, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
 
+import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore'
+
 // config is an object that allows us to connect instance to one in console
 // Your web app's Firebase configuration - will allows us to CRUD in our instance
 const firebaseConfig = {
@@ -24,3 +26,17 @@ const firebaseConfig = {
 
   export const auth = getAuth()
   export const signInWithGooglePopup = () => signInWithPopup(auth, provider)
+
+  export const db = getFirestore()
+
+  export const createUserDocumentFromAuth = async (userAuth) => {
+      const userDocRef = doc(db, 'users', userAuth.uid)
+      console.log(userDocRef)
+
+    //   special object
+      const userSnapshot = await getDoc(userDocRef)
+      console.log(userSnapshot)
+    //   exists is a helpful method to see if data exists in database already - will return true or false - boolean
+      console.log(userSnapshot.exists())
+
+  }
