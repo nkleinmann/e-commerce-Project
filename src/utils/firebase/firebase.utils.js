@@ -38,5 +38,25 @@ const firebaseConfig = {
       console.log(userSnapshot)
     //   exists is a helpful method to see if data exists in database already - will return true or false - boolean
       console.log(userSnapshot.exists())
+      
+      //   if user data does not exist
+      //   create / set the document with the data from userAuth in my collection
+      if(!userSnapshot.exists()) {
+          const { displayName, email } = userAuth
+          const createdAt = new Date() // will know when new users sign in
 
+          try { 
+              await setDoc(userDocRef, {
+                  displayName,
+                  email,
+                  createdAt
+              })
+          } catch (error) {
+              console.log('error creating the user', error.message)
+          }
+      }
+
+    //   if user data exists
+    
+    return userDocRef
   }
