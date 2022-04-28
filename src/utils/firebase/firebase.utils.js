@@ -19,13 +19,15 @@ const firebaseConfig = {
   // Initialize Firebase
   const firebaseApp = initializeApp(firebaseConfig)
 
-  const provider = new GoogleAuthProvider()
-  provider.setCustomParameters({
+//   can add more providers, such as Facebook and GitHub to add different ways to sign in - need to also pass in to anonymous function below
+  const googleProvider = new GoogleAuthProvider()
+  googleProvider.setCustomParameters({
       prompt: "select_account"
   })
 
   export const auth = getAuth()
-  export const signInWithGooglePopup = () => signInWithPopup(auth, provider)
+  export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider)
+  export const signInWithGoogleRedirect = () => signInWithRedirect(auth, googleProvider)
 
   export const db = getFirestore()
 
