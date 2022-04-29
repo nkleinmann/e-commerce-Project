@@ -1,7 +1,13 @@
 // creates app instancs based on config
 import { initializeApp } from 'firebase/app'
 // authentication
-import { getAuth, signInWithRedirect, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
+import { 
+    getAuth, 
+    signInWithRedirect, 
+    signInWithPopup, 
+    GoogleAuthProvider,
+    createUserWithEmailAndPassword,
+ } from 'firebase/auth'
 
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore'
 
@@ -32,6 +38,7 @@ const firebaseConfig = {
   export const db = getFirestore()
 
   export const createUserDocumentFromAuth = async (userAuth) => {
+      if(!userAuth) return
       const userDocRef = doc(db, 'users', userAuth.uid)
       console.log(userDocRef)
 
@@ -62,3 +69,11 @@ const firebaseConfig = {
     
     return userDocRef
   }
+
+  export const createAuthUserWithEmailAndPassword = async (email, password) => {
+    if(!email || !password) return
+
+    createUserWithEmailAndPassword(auth, email, password)
+  }
+
+//   utils is acting as a layer between front end code and third end libraries (how code is set up here - easy to change if firebase updates way of doing something)
