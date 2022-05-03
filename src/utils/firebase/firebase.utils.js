@@ -28,7 +28,7 @@ const firebaseConfig = {
 //   can add more providers, such as Facebook and GitHub to add different ways to sign in - need to also pass in to anonymous function below
   const googleProvider = new GoogleAuthProvider()
   googleProvider.setCustomParameters({
-      prompt: "select_account"
+      prompt: 'select_account'
   })
 
   export const auth = getAuth()
@@ -37,7 +37,10 @@ const firebaseConfig = {
 
   export const db = getFirestore()
 
-  export const createUserDocumentFromAuth = async (userAuth) => {
+  export const createUserDocumentFromAuth = async (
+      userAuth, 
+      additionalInformation = {}
+    ) => {
       if(!userAuth) return
       const userDocRef = doc(db, 'users', userAuth.uid)
       console.log(userDocRef)
@@ -58,7 +61,8 @@ const firebaseConfig = {
               await setDoc(userDocRef, {
                   displayName,
                   email,
-                  createdAt
+                  createdAt,
+                  ...additionalInformation
               })
           } catch (error) {
               console.log('error creating the user', error.message)
@@ -73,7 +77,7 @@ const firebaseConfig = {
   export const createAuthUserWithEmailAndPassword = async (email, password) => {
     if(!email || !password) return
 
-    createUserWithEmailAndPassword(auth, email, password)
+    return await createUserWithEmailAndPassword(auth, email, password)
   }
 
 //   utils is acting as a layer between front end code and third end libraries (how code is set up here - easy to change if firebase updates way of doing something)
